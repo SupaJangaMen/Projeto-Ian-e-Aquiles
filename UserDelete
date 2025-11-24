@@ -1,0 +1,17 @@
+public boolean deletarUsuario(int id) {
+    String sql = "DELETE FROM Usuario WHERE id = ?";
+
+    try (Connection conn = Database.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setInt(1, id);
+        int linhasAfetadas = stmt.executeUpdate();
+
+        return linhasAfetadas > 0; 
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return false; 
+}
