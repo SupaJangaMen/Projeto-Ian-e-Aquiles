@@ -1,0 +1,61 @@
+package Model;
+
+public class Contatos {
+
+    private int id;
+    private String nome;
+    private String cpf;
+    private String data_de_nascimento;
+    private int senha_hash;
+    private String telefone;
+    private String email;
+
+   
+    public Contatos(int id, String nome, String cpf, String data_de_nascimento,
+                    int senha_hash, String telefone, String email) {
+
+        this.id = id;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.data_de_nascimento = data_de_nascimento;
+        this.senha_hash = senha_hash;
+        this.telefone = telefone;
+        this.email = email;
+    }
+
+   
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+
+    public String getCpf() { return cpf; }
+    public void setCpf(String cpf) { this.cpf = cpf; }
+
+    public String getData_de_nascimento() { return data_de_nascimento; }
+    public void setData_de_nascimento(String data_de_nascimento) {
+        this.data_de_nascimento = data_de_nascimento;
+    }
+
+    public int getSenha_hash() { return senha_hash; }
+    public void setSenha_hash(int senha_hash) { this.senha_hash = senha_hash; }
+
+    public String getTelefone() { return telefone; }
+    public void setTelefone(String telefone) { this.telefone = telefone; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    
+    @Override
+    public String toString() {
+        return "ID: " + id +
+                ", Nome: " + nome +
+                ", CPF: " + cpf +
+                ", Data de nascimento: " + data_de_nascimento +
+                ", Telefone: " + telefone +
+                ", Email: " + email +
+                ", Senha Hash: " + senha_hash;
+    }
+}
