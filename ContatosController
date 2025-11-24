@@ -1,0 +1,104 @@
+package Controller;
+
+import Db.Database;
+import Model.Contatos;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ContatosController {
+
+   
+    public List<Contatos> listarContatos() {
+        List<Contatos> contatos = new ArrayList<>();
+        String sql = "SELECT * FROM contatos"; 
+
+        try (Connection con = Database.getConnection();
+             Statement stmt = con.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Contatos c = new Contatos(
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("cpf"),
+                        rs.getString("data_de_nascimento"),
+                        rs.getInt("senha_hash"),
+                        rs.getString("telefone"),
+                        rs.getString("email")
+                );
+                contatos.add(c);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar contatos: " + e.getMessage());
+        }
+
+        return contatos;
+    }
+
+    
+    public boolean criarContato(Contatos c) {
+        String sql = "INSERT INTO contatos (nome, cpf, data_de_nascimento, senha_hash, telefone, email) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection con = Database.getConnection();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setString(1, c.getNome());
+            stmt.setString(2, c.getCpf());
+            stmt.setString(3, c.getData_de_nascimento());
+            stmt.setInt(4, c.getSenha_hash());
+            stmt.setString(5, c.getTelefone());
+            stmt.setString(6, c.getEmail());
+
+            stmt.executeUpdate();
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao criar contato: " + e.getMessage());
+            return false;
+        }
+    }
+
+    
+    public boolean atualizarContato(Contatos c) {
+        String sql = "UPDATE contatos SET nome=?, cpf=?, data_de_nascimento=?, senha_hash=?, telefone=?, email=? WHERE id=?";
+
+        try (Connection con = Database.getConnection();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setString(1, c.getNome());
+            stmt.setString(2, c.getCpf());
+            stmt.setString(3, c.getData_de_nascimento());
+            stmt.setInt(4, c.getSenha_hash());
+            stmt.setString(5, c.getTelefone());
+            stmt.setString(6, c.getEmail());
+            stmt.setInt(7, c.getId());
+
+            int linhas = stmt.executeUpdate();
+            return linhas > 0;
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar contato: " + e.getMessage());
+            return false;
+        }
+    }
+
+    
+    public boolean deletarContato(int id) {
+        String sql = "DELETE FROM contatos WHERE id=?";
+
+        try (Connection con = Database.getConnection();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            int linhas = stmt.executeUpdate();
+            return linhas > 0;
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao deletar contato: " + e.getMessage());
+            return false;
+        }
+    }
+}
